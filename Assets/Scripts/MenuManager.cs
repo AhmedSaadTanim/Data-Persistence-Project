@@ -40,11 +40,13 @@ public class MenuManager : MonoBehaviour
             SaveData highScorer = JsonUtility.FromJson<SaveData>(json);
             userName = highScorer.name;
             userScore = highScorer.score;
+            //Debug.Log("saved");
         }
         else
         {
-            userName = "";
-            userScore = 0;
+            userName = null;
+            userScore = -1;
+            //Debug.Log("not saved");
         }
     }
 

@@ -22,18 +22,19 @@ public class MainManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log(Application.persistentDataPath);
         //recieving current user from previous scene
         currentUser = MenuManager.Instance.userName;
+        //Debug.Log("Current user: " + currentUser + "score : " + m_Points);
 
         //loading highest scorer information
         MenuManager.Instance.LoadNameAndScore();
-        h_Points = MenuManager.Instance.userScore;
         highestScorer = MenuManager.Instance.userName;
+        h_Points = MenuManager.Instance.userScore;
 
-        if(highestScorer == "")
-        {
-            highScoreText.text = "Best Score: 0";
-        }
+        //Debug.Log("highest scorer: " + highestScorer + "score: " + h_Points);
+
+        highScoreText.text = "Best Score: " + highestScorer + " : " + h_Points;
 
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
@@ -73,7 +74,8 @@ public class MainManager : MonoBehaviour
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
         }
-        if(highestScorer != "")
+
+        if(highestScorer != null)
         {
             if(m_Points <= h_Points)
             {
@@ -94,11 +96,14 @@ public class MainManager : MonoBehaviour
 
     public void GameOver()
     {
-        m_GameOver = true;
         if(h_Points < m_Points)
         {
+            //Debug.Log("Saving..");
+            MenuManager.Instance.userScore = m_Points;
+            MenuManager.Instance.userName = currentUser;
             MenuManager.Instance.SaveNameAndScore();
         }
+        m_GameOver = true;
         GameOverText.SetActive(true);
     }
 }
